@@ -8,25 +8,33 @@ export const useCartContext = () => { //Custom hook
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [loggedInUsername, setLoggedInUsername] = useState(null);
 
-  // Load cart data from local storage on initial render
+  // Load cart data and username from local storage on every render
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
+    const storedUser = localStorage.getItem('loggedInUsername');
     if (storedCart) {
       setCart(JSON.parse(storedCart));
     }
+    if (storedUser) {
+      setLoggedInUsername(JSON.parse(storedUser));
+    }
   }, []);
 
-  // Save cart data to local storage whenever it changes
+  // Save cart data and username to local storage whenever they change
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
+  useEffect(() => {
+    localStorage.setItem('loggedInUsername', JSON.stringify(loggedInUsername));
+  }, [loggedInUsername]);
+
   return (
-    <CartContext.Provider value={{ cart, setCart }}>
+    <CartContext.Provider value={{ cart, setCart, loggedInUsername, setLoggedInUsername }}>
       {children}
     </CartContext.Provider>
   );
 };
-
 

@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import CartModal from './CartModal';
+import Login from './Login';
+import Signup from './Signup'
 import { useCartContext } from '../Context/CartContext';
 
 const Navbar = () => {
-    const { cart,setCart } = useCartContext();
-    const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const { cart, setCart, loggedInUsername, setLoggedInUsername } = useCartContext();
+  const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
   const [showModal, setShowModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -76,6 +80,32 @@ const Navbar = () => {
                 </NavLink>
               </li>
             </ul>
+            {isLoggedIn ? (
+              <>
+            {loggedInUsername && (
+              <div className="d-flex align-items-center ms-3">
+                <p className="mb-0 me-2 fw-bolder fs-4">Hello, {loggedInUsername}!</p>
+
+              </div>
+            )};
+            <button
+            className="btn btn-outline-primary ms-auto"
+            onClick={() => {
+              
+              setIsLoggedIn(false);
+              setLoggedInUsername(null);
+        
+            }}
+          >
+            Logout
+          </button>
+          </>
+            ): (
+              <>
+                <Login setLoggedInUsername={setLoggedInUsername} setIsLoggedIn={setIsLoggedIn} setShowModal={setShowModal}/>
+                <Signup />
+              </>
+            )}
 
             <button className="btn btn-outline-primary ms-2" onClick={toggleModal}>
               <span className="fa fa-shopping-cart me-1"></span>Cart

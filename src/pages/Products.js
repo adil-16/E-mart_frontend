@@ -36,7 +36,7 @@ const Products = () => {
           <img src={item.img} className="card-img-top" alt={item.title} />
           <div className="card-body text-center">
             <h5 className="card-title">{item.title}</h5>
-            <p className="card-text">{item.desc}</p>
+            <p className="card-text">{item.description}</p> {/* Display the description here */}
             <p className="lead">${item.price}</p>
             <button className="btn btn-outline-primary" onClick={() => openModal(item)}>
               Add to Cart
@@ -48,9 +48,7 @@ const Products = () => {
   
     const handleCartUpdate = () => {
       // Function to notify the parent component (App) that the cart has been updated
-      // You can implement the logic here to update the cart badge
-      // For simplicity, we'll just use an empty function for now
-    };
+    };  
   
     return (
       <div>
