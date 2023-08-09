@@ -9,6 +9,14 @@ export const useCartContext = () => { //Custom hook
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [loggedInUsername, setLoggedInUsername] = useState(null);
+  console.log("userName is", loggedInUsername);
+
+  const setUsername=(name)=>{
+    setLoggedInUsername(name);
+  }
+
+  
+  
 
   // Load cart data and username from local storage on every render
   useEffect(() => {
@@ -32,7 +40,7 @@ export const CartProvider = ({ children }) => {
   }, [loggedInUsername]);
 
   return (
-    <CartContext.Provider value={{ cart, setCart, loggedInUsername, setLoggedInUsername }}>
+    <CartContext.Provider value={{ cart, setCart, loggedInUsername, setLoggedInUsername ,setUsername}}>
       {children}
     </CartContext.Provider>
   );

@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import CartModal from './CartModal';
-import Login from './Login';
-import Signup from './Signup'
 import { useCartContext } from '../Context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const { cart, setCart, loggedInUsername, setLoggedInUsername } = useCartContext();
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
   const [showModal, setShowModal] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+  const navigate = useNavigate();
+
+  console.log("Navbar logg", isLoggedIn);
+
 
   const toggleModal = () => {
     setShowModal(!showModal);
+  };
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setLoggedInUsername(null);
+    navigate('/login')
   };
 
   const handleRemoveItem = (itemId) => {
@@ -80,35 +86,37 @@ const Navbar = () => {
                 </NavLink>
               </li>
             </ul>
+
             {isLoggedIn ? (
               <>
-            {loggedInUsername && (
-              <div className="d-flex align-items-center ms-3">
-                <p className="mb-0 me-2 fw-bolder fs-4">Hello, {loggedInUsername}!</p>
+                <div className="d-flex align-items-center ms-3">
+                  <p className="mb-0 me-5 fw-bolder fs-4">Hello, {loggedInUsername}!</p>
 
-              </div>
-            )};
-            <button
-            className="btn btn-outline-primary ms-auto"
-            onClick={() => {
-              
-              setIsLoggedIn(false);
-              setLoggedInUsername(null);
-        
-            }}
-          >
-            Logout
-          </button>
-          </>
-            ): (
+                </div>
+
+                <button className="btn btn-outline-danger me-2" onClick={handleLogout}>
+                  Logout
+                </button>
+              </>
+            ) : (
               <>
-                <Login setLoggedInUsername={setLoggedInUsername} setIsLoggedIn={setIsLoggedIn} setShowModal={setShowModal}/>
-                <Signup />
+                <NavLink to="/login" className="btn btn-outline-primary me-2">
+                  <span className="fa fa-sign-in me-1"></span> Login
+                </NavLink>
+                <NavLink to="/signup" className="btn btn-outline-primary me-2">
+                  <span className="fa fa-user-plus me-1"></span> Register
+                </NavLink>
               </>
             )}
 
-            <button className="btn btn-outline-primary ms-2" onClick={toggleModal}>
-              <span className="fa fa-shopping-cart me-1"></span>Cart
+
+
+            <button
+              className="btn btn-outline-primary ms-2"
+              onClick={toggleModal}
+              disabled={!isLoggedIn} // Disable cart button if not logged in
+            >
+              <span className="fa fa-shopping-cart me-1"></span> Cart
               {cartItemCount > 0 && <span className="cart-badge">({cartItemCount})</span>}
             </button>
           </div>
