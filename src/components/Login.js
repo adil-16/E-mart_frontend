@@ -32,7 +32,7 @@ const Login = ({isLoggedIn,setIsLoggedIn  }) => {
 
     try {
       setError(null); // Reset error state
-      const response = await axios.post('http://localhost:5000/login', formData);
+      const response = await axios.post('http://localhost:5000/users/login', formData);
       console.log("Response data: ", response.data);
 
       // Show success toast notification

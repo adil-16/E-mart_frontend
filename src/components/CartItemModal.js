@@ -62,7 +62,7 @@ const CartItemModal = ({ isOpen, onClose, item, quantity,onQuantityChange, onCar
         <img src={item.img} alt={item.title} style={{ width: '100%', marginBottom: '10px' }} />
         <p>{item.desc}</p>
         <p>Price: ${item.price}</p>
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center" key={item.id}>
           <button className="btn btn-outline-secondary btn-sm me-2" onClick={handleDecrease}>
             <FontAwesomeIcon icon={faMinus} />
           </button>

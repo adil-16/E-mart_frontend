@@ -26,7 +26,7 @@ const Signup = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/add', formData);
+            const response = await axios.post('http://localhost:5000/users/add', formData);
             console.log("User registration successful: ", response.data);
             toast.success("User registration successful!");
             setFormData({

@@ -6,7 +6,7 @@ import { useCartContext } from '../Context/CartContext';
 
 Modal.setAppElement('#root'); // Set the root element for the modal
 
-const CartModal = ({  onClose, onQuantityChange, onRemoveItem }) => {
+const CartModal = ({ onClose, onQuantityChange, onRemoveItem }) => {
   const { cart } = useCartContext();
   const getTotalPrice = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -38,7 +38,7 @@ const CartModal = ({  onClose, onQuantityChange, onRemoveItem }) => {
             <>
               <ul className="list-group mb-3">
                 {cart.map((item) => (
-                  <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
+                  <li key={item._id} className="list-group-item d-flex justify-content-between align-items-center">
                     <span>{item.title}</span>
                     <div className="d-flex align-items-center">
                       <button className="btn btn-outline-secondary btn-sm me-2" onClick={() => onQuantityChange(item.id, -1)}>-</button>
@@ -61,12 +61,13 @@ const CartModal = ({  onClose, onQuantityChange, onRemoveItem }) => {
                   </li>
                 ))}
               </ul>
+
               <p className="fw-bold">Total Price: ${getTotalPrice()}</p>
             </>
           )}
-         
+
         </div>
-        
+
         <button className="btn btn-secondary position-absolute bottom-0 end-0 m-3" onClick={onClose}>
           Close
         </button>

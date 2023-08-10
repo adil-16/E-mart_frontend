@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import DATA from '../Data/Data';
+import React, { useState, useEffect } from 'react';
+// import DATA from '../Data/Data';
+import axios from 'axios';
 import CartItemModal from '../components/CartItemModal';
 import { useCartContext } from '../Context/CartContext'; // Import the useCartContext
 
@@ -7,6 +8,18 @@ const Products = () => {
   const { cart,setCart } = useCartContext();
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+      // Fetch products from the backend API
+      axios.get('http://localhost:5000/products') // Replace with your API endpoint
+        .then(response => {
+          setProducts(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching products:', error);
+        });
+    }, []);
   
     const openModal = (item) => {
       setModalOpen(true);
@@ -32,11 +45,11 @@ const Products = () => {
   
     const cardItem = (item) => {
       return (
-        <div className="card my-5 py-4" key={item.id} style={{ width: '18rem' }}>
+        <div className="card my-5 py-4" key={item._id} style={{ width: '18rem' }}>
           <img src={item.img} className="card-img-top" alt={item.title} />
           <div className="card-body text-center">
             <h5 className="card-title">{item.title}</h5>
-            <p className="card-text">{item.description}</p> {/* Display the description here */}
+            <p className="card-text">{item.description}</p>
             <p className="lead">${item.price}</p>
             <button className="btn btn-outline-primary" onClick={() => openModal(item)}>
               Add to Cart
@@ -45,6 +58,7 @@ const Products = () => {
         </div>
       );
     };
+    
   
     const handleCartUpdate = () => {
       // Function to notify the parent component (App) that the cart has been updated
@@ -62,7 +76,7 @@ const Products = () => {
         </div>
         <div className="container">
           <div className="row justify-content-around">
-            {DATA.map(cardItem)}
+          {products.map(cardItem)}
           </div>
         </div>
         {selectedItem && (

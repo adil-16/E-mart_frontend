@@ -125,7 +125,6 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
 
       {showModal && (
         <CartModal
-          cart={cart}
           onClose={toggleModal}
           onQuantityChange={updateQuantity}
           onRemoveItem={handleRemoveItem}
